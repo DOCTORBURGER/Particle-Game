@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using ParticleGame.Managers;
 
 namespace ParticleGame.Particle_Sytems
 {
@@ -26,13 +27,15 @@ namespace ParticleGame.Particle_Sytems
 
         #region Private Fields
 
-        Particle[] particles;
+        Particle[] _particles;
 
-        Queue<int> freeParticles;
+        Queue<int> _freeParticles;
 
-        Texture2D texture;
+        Texture2D _texture;
 
-        Vector2 origin;
+        Vector2 _origin;
+
+        SceneManager _sceneManager;
 
         #endregion
 
@@ -54,18 +57,22 @@ namespace ParticleGame.Particle_Sytems
 
         #region Public Properties 
 
-        public int FreeParticleCount => freeParticles.Count;
+        public int FreeParticleCount => _freeParticles.Count;
+
+        public abstract string Name { get; }
 
         #endregion
 
-        public ParticleSystem(Game game, int maxParticles) : base(game)
+        public ParticleSystem(Game game, int maxParticles, SceneManager sceneManager) : base(game)
         {
-            particles = new Particle[maxParticles];
-            freeParticles = new Queue<int>(maxParticles);
-            for (int i = 0; i < particles.Length; i++)
+            _sceneManager = sceneManager;
+
+            _particles = new Particle[maxParticles];
+            _freeParticles = new Queue<int>(maxParticles);
+            for (int i = 0; i < _particles.Length; i++)
             {
-                particles[i].Initialize(Vector2.Zero);
-                freeParticles.Enqueue(i);
+                _particles[i].Initialize(Vector2.Zero);
+                _freeParticles.Enqueue(i);
             }
 
             InitializeConstants();
@@ -109,10 +116,10 @@ namespace ParticleGame.Particle_Sytems
                 throw new InvalidOperationException(message);
             }
 
-            texture = contentManager.Load<Texture2D>(textureFilename);
+            _texture = contentManager.Load<Texture2D>(textureFilename);
 
-            origin.X = texture.Width / 2;
-            origin.Y = texture.Height / 2;
+            _origin.X = _texture.Width / 2;
+            _origin.Y = _texture.Height / 2;
 
             base.LoadContent();
         }
@@ -121,16 +128,16 @@ namespace ParticleGame.Particle_Sytems
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            for (int i = 0; i < particles.Length; i++)
+            for (int i = 0; i < _particles.Length; i++)
             {
 
-                if (particles[i].Active)
+                if (_particles[i].Active)
                 {
-                    UpdateParticle(ref particles[i], dt);
+                    UpdateParticle(ref _particles[i], dt);
 
-                    if (!particles[i].Active)
+                    if (!_particles[i].Active)
                     {
-                        freeParticles.Enqueue(i);
+                        _freeParticles.Enqueue(i);
                     }
                 }
             }
@@ -140,15 +147,15 @@ namespace ParticleGame.Particle_Sytems
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(blendState: blendState);
+            spriteBatch.Begin(transformMatrix: _sceneManager.ScaleMatrix, blendState: blendState);
 
-            foreach (Particle p in particles)
+            foreach (Particle p in _particles)
             {
                 if (!p.Active)
                     continue;
 
-                spriteBatch.Draw(texture, p.Position, null, p.Color,
-                    p.Rotation, origin, p.Scale, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(_texture, p.Position, null, p.Color,
+                    p.Rotation, _origin, p.Scale, SpriteEffects.None, 0.0f);
             }
 
             spriteBatch.End();
@@ -166,11 +173,11 @@ namespace ParticleGame.Particle_Sytems
                 RandomHelper.Next(minNumParticles, maxNumParticles);
 
             // create that many particles, if you can.
-            for (int i = 0; i < numParticles && freeParticles.Count > 0; i++)
+            for (int i = 0; i < numParticles && _freeParticles.Count > 0; i++)
             {
                 // grab a particle from the freeParticles queue, and Initialize it.
-                int index = freeParticles.Dequeue();
-                InitializeParticle(ref particles[index], where);
+                int index = _freeParticles.Dequeue();
+                InitializeParticle(ref _particles[index], where);
             }
         }
 
@@ -179,10 +186,10 @@ namespace ParticleGame.Particle_Sytems
             int numParticles =
                 RandomHelper.Next(minNumParticles, maxNumParticles);
 
-            for (int i = 0; i < numParticles && freeParticles.Count > 0; i++)
+            for (int i = 0; i < numParticles && _freeParticles.Count > 0; i++)
             {
-                int index = freeParticles.Dequeue();
-                InitializeParticle(ref particles[index], RandomHelper.RandomPosition(where));
+                int index = _freeParticles.Dequeue();
+                InitializeParticle(ref _particles[index], RandomHelper.RandomPosition(where));
             }
         }
 

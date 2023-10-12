@@ -16,8 +16,6 @@ namespace ParticleGame.Scenes
         protected List<MenuEntry> _menuEntries = new List<MenuEntry>();
         private int _selectedIndex = 0;
 
-        private ContentManager _content;
-
         private readonly InputAction _menuUp;
         private readonly InputAction _menuDown;
         private readonly InputAction _menuSelect;
@@ -49,7 +47,7 @@ namespace ParticleGame.Scenes
 
             foreach (var entry in _menuEntries)
             {
-                position.X = SceneManager._virtualResolution.X / 2 - entry.GetWidth(this) / 2;
+                position.X = SceneManager.VirtualResolution.X / 2 - entry.GetWidth(this) / 2;
 
                 // set the entry's position
                 entry.Position = position;
@@ -114,7 +112,7 @@ namespace ParticleGame.Scenes
                 menuEntry.Draw(this, isSelected, gameTime);
             }
 
-            var titlePosition = new Vector2(SceneManager._virtualResolution.X / 2, 80);
+            var titlePosition = new Vector2(SceneManager.VirtualResolution.X / 2, 80);
             var titleOrigin = font.MeasureString(_menuTitle) / 2;
             var titleColor = new Color(192, 192, 192);
             const float titleScale = 2f;
