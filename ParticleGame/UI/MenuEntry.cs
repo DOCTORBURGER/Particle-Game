@@ -15,15 +15,22 @@ namespace ParticleGame.UI
         
         public Vector2 Position { get; set; }
 
-        public bool IsSelected { get; set; }
+        public event EventHandler Selected;
+
+        protected internal virtual void OnSelectEntry()
+        {
+            Selected?.Invoke(this, new EventArgs());
+        }
 
         public MenuEntry(string Text) 
         {
             this.Text = Text;
         }
 
-        public virtual void Draw(MainMenuScene screen, GameTime gameTime)
+        public virtual void Draw(MenuScene screen, bool isSelected, GameTime gameTime)
         {
+            var color = isSelected ? Color.Yellow : Color.White;
+
             // Draw text, centered on the middle of each line.
             var screenManager = screen.SceneManager;
             var spriteBatch = screenManager.SpriteBatch;
@@ -31,16 +38,16 @@ namespace ParticleGame.UI
 
             var origin = new Vector2(0, font.LineSpacing / 2);
 
-            spriteBatch.DrawString(font, Text, Position, Color.White, 0,
+            spriteBatch.DrawString(font, Text, Position, color, 0,
                 origin, 1.0f, SpriteEffects.None, 0);
         }
 
-        public int GetHeight(MainMenuScene screen)
+        public int GetHeight(MenuScene screen)
         {
             return (int)screen.SceneManager.Font.MeasureString(Text).Y;
         }
 
-        public int GetWidth(MainMenuScene screen)
+        public int GetWidth(MenuScene screen)
         {
             return (int)screen.SceneManager.Font.MeasureString(Text).X;
         }

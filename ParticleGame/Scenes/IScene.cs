@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using ParticleGame.Managers;
+using ParticleGame.State_Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace ParticleGame.Scenes
         void LoadContent();
 
         void UnloadContent();
+
+        void HandleInput(GameTime gameTime, InputState input);
 
         void Update(GameTime gameTime);
 

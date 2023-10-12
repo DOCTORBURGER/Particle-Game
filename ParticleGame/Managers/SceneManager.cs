@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ParticleGame.Scenes;
+using ParticleGame.State_Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ParticleGame.Managers
         private IScene _currentScene;
 
         private readonly ContentManager _content;
+        private readonly InputState _input = new InputState();
 
         public SpriteBatch SpriteBatch { get; private set; }
 
@@ -45,6 +47,9 @@ namespace ParticleGame.Managers
 
         public override void Update(GameTime gameTime)
         {
+            _input.Update();
+
+            _currentScene?.HandleInput(gameTime, _input);
             _currentScene?.Update(gameTime);
         }
 
