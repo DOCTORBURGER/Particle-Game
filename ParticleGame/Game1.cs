@@ -1,32 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ParticleGame.Managers;
+using ParticleGame.Scenes;
 
 namespace ParticleGame
 {
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+
+        private SceneManager sceneManager;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            // Set the resolution
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+
+            // Initialize our Scene Manager
+            sceneManager = new SceneManager(this, _graphics);
+            Components.Add(sceneManager);
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            sceneManager.SetScene(new MainMenuScene());
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -42,7 +53,7 @@ namespace ParticleGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 

@@ -13,6 +13,14 @@
 
 #---------------------------------- Content ---------------------------------#
 
+
+#begin Silkscreen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Silkscreen.spritefont
+
 #begin Pixel5x5.png
 /importer:TextureImporter
 /processor:TextureProcessor
