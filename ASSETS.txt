@@ -1,0 +1,13 @@
+===============================
+       PARTICLE GAME - ASSETS
+===============================
+
+This document lists all third-party assets used in [Game Title] and their respective licenses or terms of use.
+
+--------------
+    FONTS
+--------------
+1. SILKSCREEN
+	- Author: Jason Kottke
+	- License: Free for personal and corporate use
+	- Source: https://www.fontsquirrel.com/fonts/Silkscreen
