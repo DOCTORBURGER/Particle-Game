@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ParticleGame.Managers;
@@ -7,6 +8,7 @@ using ParticleGame.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +20,8 @@ namespace ParticleGame.Scenes
 
         protected List<MenuEntry> _menuEntries = new List<MenuEntry>();
         private int _selectedIndex = 0;
+
+        private ContentManager _content;
 
         private readonly InputAction _menuUp;
         private readonly InputAction _menuDown;
@@ -38,12 +42,10 @@ namespace ParticleGame.Scenes
 
         public void LoadContent()
         {
-            
         }
 
         public void UnloadContent()
         {
-
         }
 
         private void UpdateMenuEntryLocations()
@@ -52,7 +54,7 @@ namespace ParticleGame.Scenes
 
             foreach (var entry in _menuEntries)
             {
-                position.X = SceneManager.GraphicsDevice.Viewport.Width / 2 - entry.GetWidth(this) / 2;
+                position.X = SceneManager._virtualResolution.X / 2 - entry.GetWidth(this) / 2;
 
                 // set the entry's position
                 entry.Position = position;
@@ -105,11 +107,10 @@ namespace ParticleGame.Scenes
         {
             UpdateMenuEntryLocations();
 
-            var graphics = SceneManager.GraphicsDevice;
             var spriteBatch = SceneManager.SpriteBatch;
             var font = SceneManager.Font;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: SceneManager.ScaleMatrix);
 
             for (int i = 0; i < _menuEntries.Count; i++)
             {
@@ -118,7 +119,7 @@ namespace ParticleGame.Scenes
                 menuEntry.Draw(this, isSelected, gameTime);
             }
 
-            var titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
+            var titlePosition = new Vector2(SceneManager._virtualResolution.X / 2, 80);
             var titleOrigin = font.MeasureString(_menuTitle) / 2;
             var titleColor = new Color(192, 192, 192);
             const float titleScale = 2f;

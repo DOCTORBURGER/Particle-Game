@@ -20,8 +20,10 @@ namespace ParticleGame
             IsMouseVisible = true;
 
             // Set the resolution
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            //_graphics.PreferredBackBufferWidth = 1280;
+            //_graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 2560;
+            _graphics.PreferredBackBufferHeight = 1440;
 
             // Initialize our Scene Manager
             sceneManager = new SceneManager(this);

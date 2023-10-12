@@ -34,7 +34,7 @@ namespace ParticleGame.Scenes
 
         private void Settings(object sender, EventArgs e)
         {
-
+            SceneManager.SetScene(new SettingsMenuScene());
         }
 
         private void ExitClicked(object sender, EventArgs e)

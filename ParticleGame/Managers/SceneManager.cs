@@ -3,12 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ParticleGame.Scenes;
 using ParticleGame.State_Management;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParticleGame.Managers
 {
@@ -18,6 +12,11 @@ namespace ParticleGame.Managers
 
         private readonly ContentManager _content;
         private readonly InputState _input = new InputState();
+
+        private Matrix _scaleMatrix = Matrix.Identity;
+        public readonly Point _virtualResolution = new Point(1280, 720);
+
+        public Matrix ScaleMatrix => _scaleMatrix;
 
         public SpriteBatch SpriteBatch { get; private set; }
 
@@ -40,6 +39,7 @@ namespace ParticleGame.Managers
 
         protected override void LoadContent()
         {
+            CalculateMatrix();
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Font = _content.Load<SpriteFont>("Silkscreen");
             base.LoadContent();
@@ -56,6 +56,14 @@ namespace ParticleGame.Managers
         public override void Draw(GameTime gameTime)
         {
             _currentScene?.Draw(gameTime);
+        }
+
+        public void CalculateMatrix()
+        {
+            float scaleX = (float)Game.GraphicsDevice.Viewport.Width / _virtualResolution.X;
+            float scaleY = (float)Game.GraphicsDevice.Viewport.Height / _virtualResolution.Y;
+
+            _scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
         }
     }
 }
