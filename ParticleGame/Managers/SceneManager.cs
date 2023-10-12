@@ -13,37 +13,44 @@ namespace ParticleGame.Managers
 {
     public class SceneManager : DrawableGameComponent
     {
-        private Scene currentScene;
+        private IScene _currentScene;
 
-        private readonly ContentManager content;
+        private readonly ContentManager _content;
+
+        public SpriteBatch SpriteBatch { get; private set; }
+
+        public SpriteFont Font { get; private set; }
 
         public SceneManager(Game game) : base(game)
         {
-            content = new ContentManager(game.Services, "Content");
+            _content = new ContentManager(game.Services, "Content");
         }
 
-        public void SetScene(Scene newScene)
+        public void SetScene(IScene newScene)
         {
+            if (_currentScene != null) { _currentScene.UnloadContent(); }
 
+            _currentScene = newScene;
+            newScene.SceneManager = this;
+
+            _currentScene.LoadContent();
         }
 
         protected override void LoadContent()
         {
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Font = _content.Load<SpriteFont>("Silkscreen");
             base.LoadContent();
         }
 
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
-        }
         public override void Update(GameTime gameTime)
         {
-
+            _currentScene?.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-
+            _currentScene?.Draw(gameTime);
         }
     }
 }
