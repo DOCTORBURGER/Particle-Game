@@ -11,6 +11,8 @@ namespace ParticleGame.Managers
         private IScene _currentScene;
 
         private readonly ContentManager _content;
+        private GraphicsDeviceManager _graphics;
+
         private readonly InputState _input = new InputState();
 
         private Matrix _scaleMatrix = Matrix.Identity;
@@ -22,9 +24,10 @@ namespace ParticleGame.Managers
 
         public SpriteFont Font { get; private set; }
 
-        public SceneManager(Game game) : base(game)
+        public SceneManager(Game game, GraphicsDeviceManager graphics) : base(game)
         {
             _content = new ContentManager(game.Services, "Content");
+            _graphics = graphics;
         }
 
         public void SetScene(IScene newScene)
@@ -64,6 +67,15 @@ namespace ParticleGame.Managers
             float scaleY = (float)Game.GraphicsDevice.Viewport.Height / _virtualResolution.Y;
 
             _scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
+        }
+
+        public void SetResolution(Point resolution)
+        {
+            _graphics.PreferredBackBufferWidth = resolution.X;
+            _graphics.PreferredBackBufferHeight = resolution.Y;
+            _graphics.ApplyChanges();
+
+            CalculateMatrix();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ParticleGame
             _graphics.PreferredBackBufferHeight = 720;
 
             // Initialize our Scene Manager
-            sceneManager = new SceneManager(this);
+            sceneManager = new SceneManager(this, _graphics);
             Components.Add(sceneManager);
         }
 
