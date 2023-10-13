@@ -31,6 +31,12 @@
 /processorParam:TextureFormat=Color
 /build:Pixel5x5.png
 
+#begin rain.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:rain.wav
+
 #begin raindrop.png
 /importer:TextureImporter
 /processor:TextureProcessor
