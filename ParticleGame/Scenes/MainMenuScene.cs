@@ -1,12 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using ParticleGame.Managers;
-using ParticleGame.State_Management;
+﻿using ParticleGame.Managers;
 using ParticleGame.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParticleGame.Scenes
 {
@@ -29,7 +23,7 @@ namespace ParticleGame.Scenes
 
         private void StartGame(object sender, EventArgs e)
         {
-
+            SceneManager.SetScene(new GameplayScene());
         }
 
         private void Settings(object sender, EventArgs e)

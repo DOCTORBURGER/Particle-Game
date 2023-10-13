@@ -16,7 +16,7 @@ namespace ParticleGame.Managers
         private readonly InputState _input = new InputState();
 
         private Matrix _scaleMatrix = Matrix.Identity;
-        public readonly Point _virtualResolution = new Point(1280, 720);
+        public readonly Point VirtualResolution = new Point(1280, 720);
 
         public Matrix ScaleMatrix => _scaleMatrix;
 
@@ -63,8 +63,8 @@ namespace ParticleGame.Managers
 
         public void CalculateMatrix()
         {
-            float scaleX = (float)Game.GraphicsDevice.Viewport.Width / _virtualResolution.X;
-            float scaleY = (float)Game.GraphicsDevice.Viewport.Height / _virtualResolution.Y;
+            float scaleX = (float)Game.GraphicsDevice.Viewport.Width / VirtualResolution.X;
+            float scaleY = (float)Game.GraphicsDevice.Viewport.Height / VirtualResolution.Y;
 
             _scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
         }
