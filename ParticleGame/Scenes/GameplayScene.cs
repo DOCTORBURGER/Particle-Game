@@ -21,7 +21,7 @@ namespace ParticleGame.Scenes
         public GameplayScene()
         {
             _nextEffect = new InputAction(new[] { Keys.Left }, true);
-            _previousEffect = new InputAction(new[] { Keys.Down }, true);
+            _previousEffect = new InputAction(new[] { Keys.Right }, true);
 
             _particleSystems = new List<ParticleSystem>();
         }
@@ -31,7 +31,9 @@ namespace ParticleGame.Scenes
             var rain = new RainParticleSystem(SceneManager.Game, new Rectangle(0, 0, SceneManager.VirtualResolution.X, 1), SceneManager);
             _particleSystems.Add(rain);
 
-
+            var sparks = new MouseSparksParticleSystem(SceneManager.Game, SceneManager);
+            _particleSystems.Add(sparks);
+             
             SceneManager.Game.Components.Add(_particleSystems[_currentEffectIndex]);
         }
 
@@ -62,7 +64,10 @@ namespace ParticleGame.Scenes
 
         public void Update(GameTime gameTime)
         {
-
+            if (_particleSystems[_currentEffectIndex] is IEmit emitter)
+            { 
+                emitter.Emit(Mouse.GetState().Position);
+            }
         }
 
         public void Draw(GameTime gameTime)

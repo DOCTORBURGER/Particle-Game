@@ -29,7 +29,7 @@ namespace ParticleGame.Particle_Sytems
 
         protected override void InitializeParticle(ref Particle p, Vector2 where)
         {
-            p.Initialize(where, new Vector2(-100, 1300), Vector2.Zero, Color.White, lifetime: 2f);
+            p.Initialize(where, new Vector2(-100, 1300), Vector2.Zero, Color.White, lifetime: 2f, rotation: 0.1f);
         }
 
         public override void Update(GameTime gameTime)
