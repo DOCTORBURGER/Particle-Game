@@ -1,13 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using ParticleGame.Managers;
 using System;
 
 namespace ParticleGame.Particle_Sytems
 {
-    public class FireBallParticleSystem : ParticleSystem, IEmit
+    public class FireBallParticleSystem : ParticleSystem, IEmit, ISoundEmitter
     {
         public override string Name => "Fire";
+
+        private SoundEffect _fireballSoundEffect;
+        private SoundEffectInstance _fireballSoundInstance = null;
 
         public FireBallParticleSystem(Game game, SceneManager sceneManager) : base(game, 2500, sceneManager) { }
 
@@ -19,6 +23,26 @@ namespace ParticleGame.Particle_Sytems
 
             blendState = BlendState.Additive;
             DrawOrder = AdditiveBlendDrawOrder;
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            _fireballSoundEffect = contentManager.Load<SoundEffect>("fire");
+            _fireballSoundInstance = _fireballSoundEffect.CreateInstance();
+            _fireballSoundInstance.IsLooped = true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _fireballSoundInstance?.Stop();
+                _fireballSoundInstance?.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         protected override void InitializeParticle(ref Particle p, Vector2 where)
@@ -46,6 +70,16 @@ namespace ParticleGame.Particle_Sytems
         public void Emit(Vector2 where) 
         {
             AddParticles(where);
+        }
+
+        public void PlayNoise()
+        {
+            _fireballSoundInstance?.Play();
+        }
+
+        public void StopNoise()
+        {
+            _fireballSoundInstance?.Stop();
         }
     }
 }

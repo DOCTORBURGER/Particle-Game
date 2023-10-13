@@ -64,6 +64,8 @@ namespace ParticleGame.Scenes
 
         private void ChangeEffect(int direction)
         {
+            if (_particleSystems[_currentEffectIndex] is ISoundEmitter oldSoundEmitter) { oldSoundEmitter.StopNoise(); }
+
             SceneManager.Game.Components.Remove(_particleSystems[_currentEffectIndex]);
 
             _currentEffectIndex += direction;
@@ -71,6 +73,8 @@ namespace ParticleGame.Scenes
             if (_currentEffectIndex >= _particleSystems.Count) _currentEffectIndex = 0;
 
             SceneManager.Game.Components.Add(_particleSystems[_currentEffectIndex]);
+
+            if (_particleSystems[_currentEffectIndex] is ISoundEmitter newSoundEmmiter) { newSoundEmmiter.PlayNoise(); }
         }
 
         public void Update(GameTime gameTime)
