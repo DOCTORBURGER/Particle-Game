@@ -36,6 +36,9 @@ namespace ParticleGame.Scenes
 
             var water = new WaterBallParticleSystem(SceneManager.Game, SceneManager);
             _particleSystems.Add(water);
+
+            var fire = new FireBallParticleSystem(SceneManager.Game, SceneManager);
+            _particleSystems.Add(fire);
              
             SceneManager.Game.Components.Add(_particleSystems[_currentEffectIndex]);
         }
