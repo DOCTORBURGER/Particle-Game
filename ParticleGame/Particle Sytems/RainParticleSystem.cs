@@ -10,6 +10,8 @@ namespace ParticleGame.Particle_Sytems
 
         public override string Name => "Rain";
 
+        public Vector2 Wind { get; set; } = Vector2.Zero;
+
         public RainParticleSystem(Game game, Rectangle source, SceneManager sceneManager) : base(game, 2500, sceneManager)
         {
             _source = source;

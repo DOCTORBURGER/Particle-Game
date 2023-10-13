@@ -70,7 +70,7 @@ namespace ParticleGame.Scenes
             var spriteBatch = SceneManager.SpriteBatch;
             var font = SceneManager.Font;
 
-            var effectTitle = _particleSystems[_currentEffectIndex].Name;
+            var effectTitle = "< " + _particleSystems[_currentEffectIndex].Name + " >";
 
             var effectTitlePosition = new Vector2(SceneManager.VirtualResolution.X / 2, SceneManager.VirtualResolution.Y - 80);
             var effectTitleOrigin = font.MeasureString(effectTitle) / 2;
