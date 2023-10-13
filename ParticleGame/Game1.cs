@@ -16,7 +16,7 @@ namespace ParticleGame
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
             // Set the resolution
             _graphics.PreferredBackBufferWidth = 1280;

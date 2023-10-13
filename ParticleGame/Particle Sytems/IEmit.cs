@@ -9,6 +9,6 @@ namespace ParticleGame.Particle_Sytems
 {
     public interface IEmit
     {
-        void Emit(Point where);
+        void Emit(Vector2 where);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace ParticleGame.State_Management
 {
@@ -8,18 +9,28 @@ namespace ParticleGame.State_Management
 
         private KeyboardState _previousKeyboardState;
 
+        public MouseState CurrentMouseState;
+
+        private MouseState _previousMouseState;
+
         public InputState()
         {
             CurrentKeyboardState = new KeyboardState();
 
             _previousKeyboardState = new KeyboardState();
+
+            CurrentMouseState = new MouseState();
+
+            _previousMouseState = new MouseState();
         }
 
         public void Update()
         {
             _previousKeyboardState = CurrentKeyboardState;
+            _previousMouseState = CurrentMouseState;
 
             CurrentKeyboardState = Keyboard.GetState();
+            CurrentMouseState = Mouse.GetState();
         }
 
         public bool IsKeyPressed(Keys key)
@@ -30,6 +41,17 @@ namespace ParticleGame.State_Management
         public bool IsNewKeyPress(Keys key)
         {
             return CurrentKeyboardState.IsKeyDown(key) && _previousKeyboardState.IsKeyUp(key);
+        }
+
+        public Vector2 GetAdjustedMouseLocation(Matrix scaleMatrix)
+        {
+            var inverseScaleMatrix = Matrix.Invert(scaleMatrix);
+
+            var mouseScreenPos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+
+            var mouseGamePos = Vector2.Transform(mouseScreenPos, inverseScaleMatrix);
+
+            return mouseGamePos;
         }
     }
 }

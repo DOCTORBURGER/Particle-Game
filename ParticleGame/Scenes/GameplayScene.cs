@@ -49,6 +49,11 @@ namespace ParticleGame.Scenes
         {
             if(_nextEffect.Occurred(input)) { ChangeEffect(1); }
             else if (_previousEffect.Occurred(input)) { ChangeEffect(-1); }
+
+            if (_particleSystems[_currentEffectIndex] is IEmit emitter)
+            {
+                emitter.Emit(input.GetAdjustedMouseLocation(SceneManager.ScaleMatrix));
+            }
         }
 
         private void ChangeEffect(int direction)
@@ -64,10 +69,7 @@ namespace ParticleGame.Scenes
 
         public void Update(GameTime gameTime)
         {
-            if (_particleSystems[_currentEffectIndex] is IEmit emitter)
-            { 
-                emitter.Emit(Mouse.GetState().Position);
-            }
+
         }
 
         public void Draw(GameTime gameTime)

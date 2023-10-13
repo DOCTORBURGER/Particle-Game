@@ -43,10 +43,9 @@ namespace ParticleGame.Particle_Sytems
             base.Update(gameTime);
         }
 
-        public void Emit(Point where) 
+        public void Emit(Vector2 where) 
         {
-            AddParticles(new Vector2(where.X, where.Y));
+            AddParticles(where);
         }
-
     }
 }
