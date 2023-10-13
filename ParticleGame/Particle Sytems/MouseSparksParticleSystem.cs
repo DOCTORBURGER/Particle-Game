@@ -23,9 +23,9 @@ namespace ParticleGame.Particle_Sytems
 
         protected override void InitializeParticle(ref Particle p, Vector2 where)
         {
-            var velocity = RandomHelper.NextDirection() * RandomHelper.NextFloat(400, 600);
+            var velocity = RandomHelper.NextDirection() * RandomHelper.NextFloat(600, 800);
 
-            var lifetime = RandomHelper.NextFloat(0.1f, 0.3f);
+            var lifetime = RandomHelper.NextFloat(0.1f, 0.25f);
 
             var acceleration = Vector2.Zero;
 
