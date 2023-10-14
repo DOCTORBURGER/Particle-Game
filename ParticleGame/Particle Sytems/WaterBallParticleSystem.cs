@@ -1,15 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using ParticleGame.Managers;
 using System;
 
 namespace ParticleGame.Particle_Sytems
 {
-    public class WaterBallParticleSystem : ParticleSystem, IEmit
+    public class WaterBallParticleSystem : ParticleSystem, IEmit, ISoundEmitter
     {
         public override string Name => "Water";
 
         public WaterBallParticleSystem(Game game, SceneManager sceneManager) : base(game, 2500, sceneManager) { }
+
+        private SoundEffect _waterballSoundEffect;
+        private SoundEffectInstance _waterballSoundInstance = null;
 
         protected override void InitializeConstants()
         {
@@ -19,6 +23,26 @@ namespace ParticleGame.Particle_Sytems
 
             blendState = BlendState.Additive;
             DrawOrder = AdditiveBlendDrawOrder;
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            _waterballSoundEffect = contentManager.Load<SoundEffect>("water");
+            _waterballSoundInstance = _waterballSoundEffect.CreateInstance();
+            _waterballSoundInstance.IsLooped = true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _waterballSoundInstance?.Stop();
+                _waterballSoundInstance?.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         protected override void InitializeParticle(ref Particle p, Vector2 where)
@@ -46,6 +70,16 @@ namespace ParticleGame.Particle_Sytems
         public void Emit(Vector2 where) 
         {
             AddParticles(where);
+        }
+
+        public void PlayNoise()
+        {
+            _waterballSoundInstance?.Play();
+        }
+
+        public void StopNoise()
+        {
+            _waterballSoundInstance?.Stop();
         }
     }
 }

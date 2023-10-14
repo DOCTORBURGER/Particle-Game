@@ -1,15 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using ParticleGame.Managers;
 using System;
 
 namespace ParticleGame.Particle_Sytems
 {
-    public class MouseSparksParticleSystem : ParticleSystem, IEmit
+    public class MouseSparksParticleSystem : ParticleSystem, IEmit, ISoundEmitter
     {
         public override string Name => "Sparks";
 
         public MouseSparksParticleSystem(Game game, SceneManager sceneManager) : base(game, 2500, sceneManager) { }
+
+        private SoundEffect _sparksSoundEffect;
+        private SoundEffectInstance _sparksSoundInstance = null;
 
         protected override void InitializeConstants()
         {
@@ -19,6 +23,26 @@ namespace ParticleGame.Particle_Sytems
 
             blendState = BlendState.Additive;
             DrawOrder = AdditiveBlendDrawOrder;
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            _sparksSoundEffect = contentManager.Load<SoundEffect>("sparks");
+            _sparksSoundInstance = _sparksSoundEffect.CreateInstance();
+            _sparksSoundInstance.IsLooped = true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _sparksSoundInstance?.Stop();
+                _sparksSoundInstance?.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         protected override void InitializeParticle(ref Particle p, Vector2 where)
@@ -46,6 +70,16 @@ namespace ParticleGame.Particle_Sytems
         public void Emit(Vector2 where) 
         {
             AddParticles(where);
+        }
+
+        public void PlayNoise()
+        {
+            _sparksSoundInstance?.Play();
+        }
+
+        public void StopNoise()
+        {
+            _sparksSoundInstance?.Stop();
         }
     }
 }
