@@ -11,3 +11,23 @@ This document lists all third-party assets used in [Game Title] and their respec
 	- Author: Jason Kottke
 	- License: Free for personal and corporate use
 	- Source: https://www.fontsquirrel.com/fonts/Silkscreen
+
+--------------
+SOUND EFFECTS
+--------------
+1. Soft Rain Ambient
+	- Author: Mikhail from Pixabay
+	- License: Free for personal use, and corporate use if transformative
+	- Source: https://pixabay.com/sound-effects
+2. Burning Fire
+	- Author: Pixabay
+	- License: Free for personal use, and corporate use if transformative
+	- Source: https://pixabay.com/sound-effects
+3. River Stream Moderate
+	- Author: Pixabay
+	- License: Free for personal use, and corporate use if transformative
+	- Source: https://pixabay.com/sound-effects
+3. Electric Sparks
+	- Author: Pixabay
+	- License: Free for personal use, and corporate use if transformative
+	- Source: https://pixabay.com/sound-effects
